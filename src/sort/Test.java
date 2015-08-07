@@ -18,8 +18,9 @@ public class Test {
 	public static void main(String[] args) throws IOException {
 		Mergesort mergsort = new Mergesort();
 		Quicksort qsort = new Quicksort();		
+		InsertionSort inssort = new InsertionSort();		
 		List<Integer> list = new ArrayList<>(Arrays.asList(101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15));
-		
+		System.out.println(inssort.insertionSort(list));
 		//System.out.println(list);
 		//System.out.println(mergsort.mergesort(list));
 		//System.out.println(qsort.qsort(list));
@@ -50,9 +51,9 @@ public class Test {
 //		t.put(5, 500);
 //		System.out.println(t.get(1));
 		
-		BinarySearch bs = new BinarySearch();
+		/*BinarySearch bs = new BinarySearch();
 		System.out.println(sort(list));
-		System.out.println(bs.binary_search(sort(list), 3));
+		System.out.println(bs.binary_search(sort(list), 3));*/
 	}
 	
 	private static List<Integer> genrand(int size){
