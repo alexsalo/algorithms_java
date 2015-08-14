@@ -22,6 +22,8 @@ public class CodeQuestions {
 		
 		System.out.println(Integer.toBinaryString(72));
 		System.out.println(Long.toBinaryString(Double.doubleToRawLongBits(0.72)));
+		
+		System.out.println(Arrays.toString(sortDouble(new double[]{4.0,1.1,5.0,3.1,2.3,1.1,2.33})));
 	}
 	
 	static boolean isAllCharsUnique(String str){
@@ -194,6 +196,18 @@ public class CodeQuestions {
 			}
 		}
 		return s;
+	}
+	
+	static double[] sortDouble(double[] a){
+		for (int i = 1; i < a.length; i++){
+			double x = a[i];
+			int j;
+			for (j = i; j > 0 && a[j-1] > x; j--){
+				a[j] = a[j-1];
+			}
+			a[j] = x;
+		}
+		return a;
 	}
 
 }
