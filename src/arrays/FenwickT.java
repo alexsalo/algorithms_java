@@ -39,10 +39,10 @@ public class FenwickT{
 	// Usage example
 	public static void main(String[] args) {
 		// init simple array
-		int N = 10;
+		int N = 16;
 		int[] t = new int[N];
-		for (int i = 0; i < t.length; i++){
-			t[i] = i;
+		for (int i = 1; i <= t.length; i++){
+			t[i-1] = i;
 		}		
 		System.out.println(Arrays.toString(t));
 		
