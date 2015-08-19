@@ -6,42 +6,56 @@ public class Sortings {
 		int[] a = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
 		int[] b = new int[] { 5, 3, 1 };
 		int[] c = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
-		int[] d = new int[] { 5, 3, 1, 6 };
 		int[] e = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
-		int[] f = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
-
+		int[] f = new int[] { -15, 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -16 };		
+		
 		print(insertionSort(a));
+		
 		mergeSort(b);
 		print(b);
 
 		quickSort(c);
 		print(c);
+		System.out.println("Binary Search: " + binarySearch(c, 2));
 		
 		print(radixLSDSort(e));
 		
 		print(f);
-		radMSBsort(f);
+		radRSBsort(f); //only for positives
 		print(f);
-		printBinary(new int[]{-1, -3, -5, -6});
+		printBinary(new int[]{-1, -3, -5, -6, 15, -15});
+		System.out.println(Integer.toBinaryString(15 & (1 << 3)));
+		System.out.println(Integer.toBinaryString(-15 & (1 << 3)));
 	}
 	
-	public static void radMSBsort(int[] a){		
-		radMSBsort(a, 0, a.length - 1, Integer.SIZE - 1);
+	public static int binarySearch(int[] a, int x){
+		int left = 0;
+		int right = a.length - 1;
+		while (left <= right){
+			int mid = left + (right - left) / 2;
+			if (a[mid] < x){
+				left = mid + 1;
+			}else if(a[mid] > x){
+				right = mid - 1;
+			}else{
+				return mid;
+			}
+		}
+		return -1;
 	}
 	
-	public static void radMSBsort(int[] a, int left, int right, int pos){		
+	public static void radRSBsort(int[] a){		
+		radRSBsort(a, 0, a.length - 1, Integer.SIZE - 1);
+	}
+	
+	public static void radRSBsort(int[] a, int left, int right, int pos){		
 		if (pos >= 0 && left < right){
 			int[] zeros = new int[right - left + 1];
 			int[] ones = new int[right - left + 1];
 			int nzeros = 0;
 			int nones = 0;
 			for (int i = left; i <= right; i++){
-				boolean move;
-				if (a[i] >= 0)
-					move = (a[i] & (1 << pos)) == 0;
-				else
-					move = (a[i] & (1 << pos)) != 1;
- 				if (move){
+ 				if ((a[i] & (1 << pos)) == 0){
 					zeros[nzeros++] = a[i];
 				}else{
 					ones[nones++] = a[i];
@@ -56,8 +70,8 @@ public class Sortings {
 				a[left + nzeros + i] = ones[i];
 			}
 			
-			radMSBsort(a, left, left + nzeros - 1, pos - 1);
-			radMSBsort(a, left + nzeros, right, pos - 1);
+			radRSBsort(a, left, left + nzeros - 1, pos - 1);
+			radRSBsort(a, left + nzeros, right, pos - 1);
 		}
 	}
 	

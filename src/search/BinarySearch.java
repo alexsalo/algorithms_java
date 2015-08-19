@@ -14,9 +14,9 @@ public class BinarySearch {
 				return mid;
 			
 			if (value > list.get(mid)) 
-				lo = mid;
+				lo = mid + 1;
 			else 
-				hi = mid;
+				hi = mid - 1;
 		}
 		return -1;
 	}
