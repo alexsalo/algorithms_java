@@ -1,9 +1,11 @@
 package sort;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Stack;
 
-import linkedLists.Lists.Stack;
+
 
 public class Questions {
 
@@ -23,6 +25,8 @@ public class Questions {
 		
 		String[] strings = new String[]{"aba", "cca", "aab", "c", "bbc", "baa", "cbb", "acc"};
 		System.out.println(Arrays.toString(sortAsAnagrams(strings)));
+		System.out.println(Arrays.toString(sortByAnagrams(strings)));
+		System.out.println(Arrays.toString(groupByAnagrams(strings)));
 	}
 	
 	public static int[] mergeNoExtraSpace(int[] a, int[] b){
@@ -69,7 +73,7 @@ public class Questions {
 	// 11.2
 	public static String[] sortAsAnagrams(String [] a){
 		// 0. Store original indices
-		HashMap<String, Stack> indices = new HashMap<String, Stack>();
+		HashMap<String, Stack<String>> indices = new HashMap<String, Stack<String>>();
 		
 		// 1. Sort chars within strings
 		String[] sorted_chars = new String[a.length];
@@ -77,11 +81,11 @@ public class Questions {
 			String from = a[i];
 			String to = String.valueOf(iSort(from.toCharArray()));
 			if (indices.containsKey(to)){
-				Stack stack = indices.get(to);
+				Stack<String> stack = indices.get(to);
 				stack.add(from);
 				indices.put(to, stack);
 			}else{
-				Stack stack = new Stack();
+				Stack<String> stack = new Stack<String>();
 				stack.add(from);
 				indices.put(to, stack);
 			}
@@ -95,7 +99,7 @@ public class Questions {
 		// 3. Gather original strings
 		String[] result = new String[a.length];
 		for (int i = 0; i < a.length; i++){
-			Stack stack = indices.get(sorted_strings[i]);
+			Stack<String> stack = indices.get(sorted_strings[i]);
 			result[i] = (String) stack.pop();			
 		}
 		return result;
@@ -140,5 +144,48 @@ public class Questions {
 		}
 		return a;
 	}
+	
+	// option2
+	public static String[] sortByAnagrams(String[] a){		
+		Arrays.sort(a, new StringCharComparator());
+		return a;
+	}	
+	
+	// option 3 (since no order required)
+	public static String[] groupByAnagrams(String[] a){
+		HashMap<String, Stack<String>> buckets = new HashMap<String, Stack<String>>();
+		for (String s : a){
+			char[] chars = s.toCharArray();
+			Arrays.sort(chars);
+			String key = new String(chars);
+			if (buckets.containsKey(key)){
+				buckets.get(key).add(s);
+			}else{
+				Stack<String> stack = new Stack<String>();
+				stack.add(s);
+				buckets.put(key, stack);
+			}
+		}
+		String[] result = new String[a.length];
+		int i = 0;
+		for (String key : buckets.keySet()){
+			Stack<String> stack = buckets.get(key);
+			while (!stack.empty()){
+				result[i++] = (String) stack.pop();
+			}
+		}
+		return result;
+	}
+}
 
+class StringCharComparator implements Comparator<String>{
+	private String sort(String s){
+		char[] chars = s.toCharArray();
+		Arrays.sort(chars);
+		return new String(chars);
+	}
+
+	public int compare(String s1, String s2){
+		return sort(s1).compareTo(sort(s2));
+	}
 }
