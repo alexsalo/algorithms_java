@@ -27,8 +27,17 @@ public class Questions {
 		System.out.println(Arrays.toString(sortAsAnagrams(strings)));
 		System.out.println(Arrays.toString(sortByAnagrams(strings)));
 		System.out.println(Arrays.toString(groupByAnagrams(strings)));
+		
+		int[] ints = new int[] {-16, -15, 2, 3, 6, 8, 15, 20, 43, 50, 100, 101, 101};	
+		int[] ints2 = new int[] {6, 8, 15, 20, 43, 50, 100, 101, 101, -16, -15, 2, 3};
+		System.out.println(Arrays.toString(ints));
+		int toFind = -15;
+		System.out.println("Looking for: " + toFind + "... pos = " +findInSortedArray(ints, toFind));
+		System.out.println(Arrays.toString(ints2));
+		System.out.println("Looking for: " + toFind + "... pos = " +findInSortedArray(ints2, toFind));
 	}
 	
+	// 11.1
 	public static int[] mergeNoExtraSpace(int[] a, int[] b){
 		int ai = a.length - b.length - 1;
 		int bi = b.length - 1;
@@ -175,6 +184,46 @@ public class Questions {
 			}
 		}
 		return result;
+	}
+	
+	// 11.3
+	public static int findInSortedArray(int[] a, int x){
+		// 1. Find rotation point
+		int left = 0;
+		int right = a.length - 1;
+		if (a[0] > a[a.length - 1]){
+			while (a[left] > a[right]){
+				int mid = left + (right - left) / 2;
+				if (a[mid] > a[right]){
+					left = mid + 1;
+				}else{
+					right = mid;
+				}
+			}
+			if (x < a[left]){
+				return binSearch(a, x, 0, left);
+			}else if (x > a[left]){
+				return binSearch(a, x, left, a.length - 1);
+			}else{
+				return left;
+			}
+		}else{
+			// it is just sorted
+			return binSearch(a, x, 0, a.length - 1);
+		}
+	}
+
+	private static int binSearch(int[] a, int x, int left, int right){
+		while (left <= right){
+			int mid = left + (right - left) / 2;
+			if (a[mid] < x)
+				left = mid + 1;
+			else if (a[mid] > x)
+				right = mid - 1;
+			else //a[mid] == x 
+				return mid;
+		}
+		return -1;
 	}
 }
 

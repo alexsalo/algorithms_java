@@ -21,7 +21,7 @@ public class Sortings {
 		print(radixLSDSort(e));
 		
 		print(f);
-		radRSBsort(f); //only for positives
+		radRSBsort(f); 
 		print(f);
 		printBinary(new int[]{-1, -3, -5, -6, 15, -15});
 		System.out.println(Integer.toBinaryString(15 & (1 << 3)));
@@ -55,7 +55,8 @@ public class Sortings {
 			int nzeros = 0;
 			int nones = 0;
 			for (int i = left; i <= right; i++){
- 				if ((a[i] & (1 << pos)) == 0){
+				boolean move = (a[i] & (1 << pos)) == 0;
+ 				if (pos == Integer.SIZE - 1 ? !move : move){
 					zeros[nzeros++] = a[i];
 				}else{
 					ones[nones++] = a[i];
