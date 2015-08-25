@@ -7,7 +7,8 @@ public class Sortings {
 		int[] b = new int[] { 5, 3, 1 };
 		int[] c = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
 		int[] e = new int[] { 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -15 };
-		int[] f = new int[] { -15, 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -16 };		
+		int[] f = new int[] { -15, 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -16 };	
+		int[] d = new int[] { -15, 101, 50, 2, 43, 101, 6, 100, 8, 20, 3, 15, -16 };
 		
 		print(insertionSort(a));
 		
@@ -26,6 +27,8 @@ public class Sortings {
 		printBinary(new int[]{-1, -3, -5, -6, 15, -15});
 		System.out.println(Integer.toBinaryString(15 & (1 << 3)));
 		System.out.println(Integer.toBinaryString(-15 & (1 << 3)));
+		
+		print(heapSort(d));
 	}
 	
 	public static int binarySearch(int[] a, int x){
@@ -196,6 +199,42 @@ public class Sortings {
 		}
 		return a;
 	}
+	
+	// Heap Sort
+	public static int[] heapSort(int[] a){
+		int N = a.length;
+		int[] heap = new int[N + 1];
+		
+		// copy over
+		for (int i = 0; i < N; i++)
+			heap[i + 1] = a[i];
+		
+		// heapify
+		for (int k = N / 2; k >= 1; k--)
+			sink(heap, k, N);		
+
+		// sortdown
+		while (N >= 1){
+			a[N - 1] = heap[1];
+			heap[1] = heap[N--];
+			sink(heap, 1, N);
+		}
+		
+		return a;
+	}
+
+	private static void sink(int[] heap, int k, int N){
+		while (2 * k <= N){
+			int child = 2 * k;
+			if (child < N && heap[child] < heap[child + 1]) child++;
+			if (heap[child] < heap[k]) break; // stop sinking
+			int tmp = heap[child]; // swap
+			heap[child] = heap[k];
+			heap[k] = tmp;
+			k = child;
+		}
+	}
+		
 	
 	/**
 	 * Aux Methods
