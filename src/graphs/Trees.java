@@ -15,126 +15,150 @@ public class Trees {
 		bst.add(2);
 		bst.add(16);
 		bst.add(17);
-		
+
 		System.out.println(bst);
 		System.out.println("BST Height is: " + bst.getHeight());
 		System.out.println(bst.isBalanced());
+		System.out.println(bst.printInOrder());
 	}
-	
-	public static class TreeNode{
+
+	public static class TreeNode {
 		public int value;
 		public TreeNode left;
 		public TreeNode right;
-		
-		public TreeNode(int value){
+
+		public TreeNode(int value) {
 			this.value = value;
 			left = null;
 			right = null;
 		}
 	}
 
-	public static class BinarySearchTree{
+	public static class BinarySearchTree {
 		static TreeNode root;
 		int treeDepth = 5;
-		public BinarySearchTree(){
+
+		public BinarySearchTree() {
 			root = null;
 		}
-		
-		public void add(int value){
+
+		public void add(int value) {
 			TreeNode newnode = new TreeNode(value);
-			if (root == null){
+			if (root == null) {
 				root = newnode;
-			}else{
+			} else {
 				TreeNode node = root;
 				TreeNode previous = root;
-				while (node != null){
-					//go down find correct leaf
+				while (node != null) {
+					// go down find correct leaf
 					previous = node;
-					node = value <= node.value ? node.left : node.right; 
+					node = value <= node.value ? node.left : node.right;
 				}
-				if (value <= previous.value){
+				if (value <= previous.value) {
 					previous.left = newnode;
-				}else{
+				} else {
 					previous.right = newnode;
 				}
 			}
 		}
-		
-		public boolean isBalanced(){
+
+		public boolean isBalanced() {
 			return isBalanced(root);
 		}
-		
-		private static boolean isBalanced(TreeNode node){ // O(N)
-			if (node == null){
+
+		private static boolean isBalanced(TreeNode node) { // O(N)
+			if (node == null) {
 				return true;
 			}
 			int leftHeight = checkHeight(node.left);
-			if (leftHeight == -1){
+			if (leftHeight == -1) {
 				return false;
 			}
 			int rightHeight = checkHeight(node.right);
-			if (rightHeight == -1){
+			if (rightHeight == -1) {
 				return false;
 			}
-				
-			if (Math.abs(leftHeight - rightHeight) > 1){
+
+			if (Math.abs(leftHeight - rightHeight) > 1) {
 				return false;
-			}else{
+			} else {
 				return isBalanced(node.left) && isBalanced(node.right);
-			}					
+			}
 		}
-		
-		private static int checkHeight(TreeNode node){
-			if (node == null){
+
+		private static int checkHeight(TreeNode node) {
+			if (node == null) {
 				return 0;
-			}else{
+			} else {
 				int leftHeight = getHeight(node.left);
 				int rightHeight = getHeight(node.right);
 				int diff = leftHeight - rightHeight;
-				if (Math.abs(diff) > 1){
+				if (Math.abs(diff) > 1) {
 					return -1;
-				}else{
-					return leftHeight > rightHeight	 ? leftHeight + 1 : rightHeight + 1;
+				} else {
+					return leftHeight > rightHeight ? leftHeight + 1
+							: rightHeight + 1;
 				}
 			}
 		}
-		
-		public int getHeight(){
+
+		public int getHeight() {
 			return getHeight(root);
 		}
-		
-		private static int getHeight(TreeNode node){
-			if (node == null){
+
+		private static int getHeight(TreeNode node) {
+			if (node == null) {
 				return 0;
-			}else{
+			} else {
 				int leftHeight = getHeight(node.left);
 				int rightHeight = getHeight(node.right);
-				return leftHeight > rightHeight	 ? leftHeight + 1 : rightHeight + 1;
+				return leftHeight > rightHeight ? leftHeight + 1
+						: rightHeight + 1;
 			}
 		}
-		
-		public String toString(){
+
+		public String toString() {
 			String sb = "";
-			for (int i = 0; i < treeDepth; i++){
+			for (int i = 0; i < treeDepth; i++) {
 				sb += "Level " + String.valueOf(i) + ": ";
 				sb += printLevel(root, i);
 				sb += "\n";
 			}
 			return sb;
 		}
-		
-		private String printLevel(TreeNode node, int level){
+
+		private String printLevel(TreeNode node, int level) {
 			if (node == null)
 				return "";
 			if (level <= 0)
 				return String.valueOf(node.value) + " ";
-			else{ //level > 0
+			else { // level > 0
 				String leftStr = printLevel(node.left, level - 1);
 				String rightStr = printLevel(node.right, level - 1);
 				return leftStr + rightStr;
-			}				
-		}		
-		
+			}
+		}
+
+		public String printInOrder() {
+			return printInOrder(root);
+		}
+
+		private String printInOrder(TreeNode node) {
+			if (node == null) {
+				return "";
+			} else if (node.left == null) {
+				String right = printInOrder(node.right);
+				return String.valueOf(node.value) + " " +right;
+			} else if (node.right == null) {
+				String left = printInOrder(node.right);
+				return left + String.valueOf(node.value) + " ";
+			} else {
+				String left = printInOrder(node.left);
+				String right = printInOrder(node.right);
+				return left + String.valueOf(node.value) + " " + right;
+			}
+		}
+
 	}
 
 }
