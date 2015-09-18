@@ -75,6 +75,8 @@ public class ParseOneString {
 		System.out.println(uncapitalize(dataSimple));
 		System.out.println(uncapitalize(data));
 		System.out.println(uncapitalize("thisisawesome"));
+		
+		
 	}
 
 }
