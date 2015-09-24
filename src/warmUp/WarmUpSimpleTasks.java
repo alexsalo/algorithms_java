@@ -11,11 +11,15 @@ import java.util.Stack;
 public class WarmUpSimpleTasks {
 
 	public static void main(String[] args) throws Exception {
+        System.out.println(isBal("(())"));
+        System.out.println(isBal("(()"));
+        System.out.println(isBal("()()"));
+        System.out.println(isBal(")()("));
 		System.out.println(reverseString("alex"));
 		System.out.println(reverseStringFast("james"));
 		System.out.println(revString("Vasek"));
 		System.out.println(String.valueOf(Fibonacci(10)));
-		System.out.println(String.valueOf(Fib(10)));
+		System.out.println(String.valueOf(Fib(1000)));
 		System.out.println(String.valueOf(Fibo(10)));
 		printMultiplicationTable(5);
 		System.out.println(sumInts("sumints.txt"));
@@ -26,10 +30,6 @@ public class WarmUpSimpleTasks {
 		System.out.println(isPalindrome(7));
 		System.out.println(maskString("Vasek"));
 		System.out.println(isUnique("bob", new String[] { "bab", "cat" }));
-		System.out.println(isBalanced("(())"));
-		System.out.println(isBalanced("(()"));
-		System.out.println(isBalanced("()()"));
-		System.out.println(isBalanced(")()("));
 		System.out.println();
 		System.out.println(isBal("()(dfdf)"));
 		System.out.println();
@@ -56,26 +56,6 @@ public class WarmUpSimpleTasks {
 			}
 		}
 		return true;
-	}
-
-	public static boolean isBalanced(String s) {
-		char[] chars = s.toCharArray();
-		int opened = 0;
-		int pos = 0;
-		while (pos < chars.length) {
-			while (pos < chars.length && chars[pos] == '(') {
-				opened++;
-				pos++;
-			}
-			while (pos < chars.length && chars[pos] == ')') {
-				opened--;
-				pos++;
-			}
-			if (opened < 0) {
-				return false;
-			}
-		}
-		return opened == 0;
 	}
 
 	public static boolean isBalancedFigured(String s) {
@@ -209,16 +189,16 @@ public class WarmUpSimpleTasks {
 		}
 	}
 
-	public static int Fib(int n) throws Exception {
+	public static long Fib(int n) throws Exception {
 		if (n < 1) {
 			throw new Exception("N must positive integer");
 		} else if (n == 1 || n == 2) {
 			return (1);
 		} else {
-			int[] lastTwo = new int[] { 1, 1 };
+		    long[] lastTwo = new long[] { 1, 1 };
 			int i = 3;
 			while (i++ <= n) {
-				int tmp = lastTwo[1];
+			    long tmp = lastTwo[1];
 				lastTwo[1] += lastTwo[0];
 				lastTwo[0] = tmp;
 			}
