@@ -46,7 +46,7 @@ public class DFS {
 		}
 		if (!queue.isEmpty()){
 			bfs(queue.poll());		
-		}
+		}		
 	}
 	
 	static void readGraph(String filename){
